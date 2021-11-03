@@ -6,9 +6,18 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/03 16:44:39 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/03 18:16:02 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+//docs
+//https://github.com/qst0/ft_libgfx#ft_wireframe
+//https://github.com/qst0/ft_wireframe
+//https://harm-smits.github.io/42docs/libs/minilibx/events.html
+//https://github.com/42Paris/minilibx-linux
+//https://github.com/aurelien-brabant/minilibx-posts-code
+//https://github.com/VBrazhnik/FdF/wiki
+//https://stackoverflow.com/c/42network/questions/164
 
 #include <mlx.h>
 #include <unistd.h>
