@@ -1,4 +1,4 @@
-SRCS	= fdf.c	
+SRCS	= fdf.c	free_fdf.c
 
 INCS	= ./inc
 
