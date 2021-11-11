@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/11 20:38:51 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/12 00:12:12 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int main(void)
 //	map = malloc(sizeof(t_coords) * );
 	int		file;
 	char	*row;
-	int		cols;
+//	int		cols;
 	int		rows;
 
 //	rows = 3;
@@ -193,7 +193,7 @@ int main(void)
 	file = open("test_maps/42.fdf", O_RDONLY);
 //	file = open("test_maps/pentenegpos.fdf", O_RDONLY);
 	row = get_next_line(file);
-	cols = get_map_cols(row);
+//	cols = get_map_cols(row);
 	close(file);
 	
 //	t_coords **map;
@@ -213,7 +213,7 @@ int main(void)
 */
 //	fill_rows(map, "test_maps/42.fdf");
 	
-	printf("cols: %i\n", cols);
+//	printf("cols: %i\n", cols);
 	params.mlx = mlx_init();
 	if (!params.mlx)
 		return (1);
