@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/10 18:18:31 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/11 20:38:51 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "fdf.h"
+#include "get_next_line.h"
 
 //#include "mlx_int.h"
 
@@ -70,6 +71,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 	int	dy;
 	int	stepx;
 	int	stepy;
+	int	fraction;
 
 	dx = x1 - x0;
 	dy = y1 - y0;
@@ -93,7 +95,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 		mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 16409700);
 	if (dx > dy)
 	{
-		int	fraction = dy - (dx / 2);
+		fraction = dy - (dx / 2);
 		while (x0 != x1)
 		{
 			x0 += stepx;
@@ -109,7 +111,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 	}
 	else
 	{
-		int	fraction = dx - (dy / 2);
+		fraction = dx - (dy / 2);
 		while (y0 != y1)
 		{
 			if (fraction >= 0)
@@ -123,14 +125,95 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 				mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 16409700);
 		}
 	}
-
 }
+
+static int	ft_is_space(char c)
+{
+	if (c == ' ' || c == 9 || c == 10 || c == 11 || c == 12 || c == 13)
+		return (1);
+	return (0);
+}
+
+int	get_map_cols(char *row)
+{
+	int	cols;
+	int	i;
+	int	num;
+
+	num = 0;
+	cols = 0;
+	i = 0;
+	while (row && *row)
+	{
+		if (ft_is_space(*row) == 0)
+		{
+			if (num == 0)
+			{
+				num = 1;
+				cols++;
+			}
+		}
+		else
+			num = 0;
+		row++;
+	}
+	return (cols);
+}
+
+int	get_map_rows(void)
+{
+	int	rows;
+	int	file;
+
+	rows = 0;
+	file = open("test_maps/42.fdf", O_RDONLY);
+	while (get_next_line(file) != 0)
+	{
+		printf("%i, ", rows);
+		rows++;
+	}
+	close(file);
+	return (rows);
+}
+
 
 int main(void)
 {
 	t_params	params;
-	
 //	atexit(checkleaks);
+//	t_coords **map;
+//	map = malloc(sizeof(t_coords) * );
+	int		file;
+	char	*row;
+	int		cols;
+	int		rows;
+
+//	rows = 3;
+	rows = get_map_rows();
+	file = open("test_maps/42.fdf", O_RDONLY);
+//	file = open("test_maps/pentenegpos.fdf", O_RDONLY);
+	row = get_next_line(file);
+	cols = get_map_cols(row);
+	close(file);
+	
+//	t_coords **map;
+
+//	map = malloc(sizeof(t_coords*) * (rows + 1));
+	//	map[rows] = 0;
+	
+/*	int	mm;
+
+	mm = 0;
+	while (map[mm])
+	{
+		map[mm] = malloc(sizeof(t_coords) * (cols + 1));
+		mm++;
+	}
+	map[mm] = 0;
+*/
+//	fill_rows(map, "test_maps/42.fdf");
+	
+	printf("cols: %i\n", cols);
 	params.mlx = mlx_init();
 	if (!params.mlx)
 		return (1);
@@ -161,12 +244,10 @@ int main(void)
 		}
 		i++;
 	}
-
 	draw_line(500, 500, 400, 550, params);
 	draw_line(500, 500, 600, 550, params);
 	draw_line(500, 600, 600, 550, params);
 	draw_line(500, 600, 400, 550, params);
-//	draw_line(600, 500, 600, 200, params);
 
 	z = 0;
 	while (z < 4)
@@ -174,7 +255,6 @@ int main(void)
 		printf("%d, %d\n", c[z].x, c[z].y);
 		z++;
 	}
-	
 
 /*	
 	int	i;

@@ -1,4 +1,4 @@
-SRCS	= fdf.c	free_fdf.c
+SRCS	= fdf.c	free_fdf.c srcs/get_next_line.c srcs/get_next_line_utils.c
 
 INCS	= ./inc
 
@@ -13,10 +13,10 @@ NAME	= fdf
 RM		= rm -f
 
 %.o:%.c
-			$(CC) $(CFLAGS) -Imlx -c $< -o $(<:.c=.o)
+			$(CC) $(CFLAGS) -Imlx -c $< -o $(<:.c=.o) -I$(INCS)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(OBJS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+			$(CC) $(CFLAGS) $(OBJS) -I$(INCS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
 all:		$(NAME)
 
