@@ -1,97 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albgarci <albgarci@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: potero-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/03 20:28:00 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/12 00:06:41 by albgarci         ###   ########.fr       */
+/*   Created: 2021/11/03 12:44:56 by potero-d          #+#    #+#             */
+/*   Updated: 2021/11/12 12:08:43 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include"get_next_line.h"
 
 char	*get_next_line(int fd)
 {
-	static char			*lft;
+	static char	*rest;
+	char		*buff;
+	char		*print;
+	char		*aux;
+	char		*aux2;
+	size_t		j;
+	size_t		i;
 
-	if (fd < 0 || read(fd, lft, 0) == -1)
+	if (fd < 0 || 1 <= 0)
 		return (0);
-	return (ft_read_loop(fd, &lft));
-}
-
-char	*ft_create_line(char **lft)
-{
-	char	*line;
-	char	*aux;
-	int		appear;
-
-	appear = ft_c(*lft, 10);
-	if (appear)
+	j = ft_strlen(rest);
+	if (rest != 0 && j != 0)
 	{
-		line = ft_substr(*lft, 0, appear);
-		aux = ft_substr(*lft, appear, ft_strlen(*lft) - appear);
+		buff = ft_substr(rest, 0, j + 1);
+		free(rest);
 	}
 	else
-		return (*lft);
-	if (*lft)
-		free(*lft);
-	*lft = aux;
-	return (line);
-}
-
-char *ft_read_loop(int fd, char **lft)
-{
-	char		*aux;
-	char		*buff;
-	static int	end;
-
-	buff = malloc(sizeof(char) * (1 + 1));
-	if (!buff)
-		return (0);
-	ft_bzero(buff, 1 + 1);
-	if (!(*lft))
-		*lft = malloc(1);
-	while (read(fd, buff, 1))
 	{
-		aux = ft_strjoin(*lft, buff);
-		free(*lft);
-		*lft = aux;
-		if (ft_c(buff, '\n') != -1)
-		{
-			free(buff);
-			return (ft_create_line(lft));
-		}
-		ft_bzero(buff, 1 + 1);
+		free(rest);
+		buff = ft_calloc(1, 1 + 1);
+		read(fd, buff, 1);
 	}
-
-	if (*lft && ft_strlen(*lft))
+	j = ft_strlen(buff);
+	if (j == 0)
 	{
 		free(buff);
-		return (ft_create_line(lft));
+		return (0);
 	}
-	free(buff);
-	if (!end)
-	{
-		end = 1;
-		free(*lft);
-	}
-	return (0);
-}
-
-int	ft_c(const char *s, int c)
-{
-	size_t	i;
-
+	print = ft_calloc(1, 1);
 	i = 0;
-	if (!s)
-		return (-1);
-	while (s[i])
+	while (buff[i] != '\n')
 	{
-		if (s[i] == c)
-			return (i + 1);
+		if (i == j - 1)
+		{
+			aux = print;
+			print = ft_strjoin(aux, buff);
+			free(aux);
+			free(buff);
+			buff = ft_calloc(1, 1 + 1);
+			read(fd, buff, 1);
+			j = ft_strlen(buff);
+			if (j == 0)
+				break ;
+			i = -1;
+		}
 		i++;
 	}
-	return (-1);
+	aux2 = ft_substr(buff, 0, i + 1);
+	aux = print;
+	print = ft_strjoin(aux, aux2);
+	free(aux);
+	free(aux2);
+	if (1 > 1)
+		rest = ft_substr(buff, i + 1, j - i);
+	free(buff);
+	return (print);
 }

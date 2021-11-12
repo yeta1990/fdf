@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line1.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albgarci <albgarci@student.42madrid.com>   +#+  +:+       +#+        */
+/*   By: potero-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/03 20:29:39 by albgarci          #+#    #+#             */
-/*   Updated: 2021/10/15 15:53:05 by albgarci         ###   ########.fr       */
+/*   Created: 2021/11/03 13:20:48 by potero-d          #+#    #+#             */
+/*   Updated: 2021/11/03 13:24:43 by potero-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
+#define GET_NEXT_LINE_H
+#include <unistd.h>
+//#include <fcntl.h>
+#include <stdlib.h>
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlen(const char *s);
-void	*ft_memmove(void *dst, const void *src, size_t len);
-int		ft_c(const char *s, int c);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-void	ft_bzero(void *s, unsigned long n);
-char	*ft_first_read(int fd, char *lft);
-char	*ft_read_loop(int fd, char **lft);
-char	*ft_create_line(char **lft);
+size_t  ft_strlen(const char *str);
+char    *ft_substr(char const *s, int star, size_t len);
+void    *ft_calloc(size_t count, size_t size);
+char    *ft_strjoin(char const *s1, char const *s2);
 
 #endif
