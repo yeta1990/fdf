@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/12 13:38:57 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/12 17:40:29 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ t_coords	create_coords(int i, int j, int z)
 {
 	t_coords	co;
 
-	co.x = (i * 10 - j * 10) + 500;
+	co.x = (i * 10 + j * 10) + 300;
 	co.z = z * 10 - 50;
-	co.y = ((i*10 + j*10) / 2) + 500 - co.z;
+	co.y = ((i*10 - j*10) / 2) + 300 - co.z;
 	return (co);
 }
 
@@ -143,7 +143,7 @@ int	get_map_cols(void)
 
 	num = 0;
 	cols = 0;
-	fd = open("test_maps/basictest.fdf", O_RDONLY);
+	fd = open("test_maps/50-4.fdf", O_RDONLY);
 	row = get_next_line(fd);
 	close(fd);
 	while (row && *row)
@@ -169,7 +169,7 @@ int	get_map_rows(void)
 	int		fd;
 
 	rows = 0;
-	fd = open("test_maps/basictest.fdf", O_RDONLY);
+	fd = open("test_maps/50-4.fdf", O_RDONLY);
 	while (get_next_line(fd))
 		rows++;
 	close(fd);
@@ -199,8 +199,8 @@ void	fill_rows(t_coords **map, char *file)
 			if (ft_is_space(*aux) && space == 0)
 			{
 				space = 1;
-				map[i][j] = create_coords(i, j, ft_atoi(aux));
-				printf("%i ", ft_atoi(aux));
+				map[i][j] = create_coords(i, j, ft_atoi(aux) + 1);
+			//	printf("%i ", ft_atoi(aux));
 				j++;
 			}
 			else
@@ -213,7 +213,6 @@ void	fill_rows(t_coords **map, char *file)
 		i++;
 	}
 	close(fd);
-	map[0][0].x = 0;
 }
 
 void	parse_and_fill(int cols, t_coords **map)
@@ -227,10 +226,10 @@ void	parse_and_fill(int cols, t_coords **map)
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, "test_maps/basictest.fdf");
+	fill_rows(map, "test_maps/50-4.fdf");
 }
 
-void	print_map(t_coords **map, t_params params)
+void	print_map(t_coords **map, t_params params, int cols, int rows)
 {
 	int	i;
 	int	j;
@@ -239,10 +238,16 @@ void	print_map(t_coords **map, t_params params)
 	while(map[i])
 	{
 		j = 0;
-		while(map[j])
+		while(map[i][j].x)
 		{
 			printf("(%i, %i, %i),", map[i][j].x, map[i][j].y, map[i][j].z);
-			draw_line(map[i][j].x, map[i][j].y, map[i][j].x, map[i][j].y, params);
+			if (i + 1 < rows && j + 1 < cols)
+			{
+				draw_line(map[i][j].x, map[i][j].y, map[i + 1][j].x, map[i][j + 1].y, params);
+				draw_line(map[i][j].x, map[i][j].y, map[i][j + 1].x, map[i + 1][j].y, params);
+			}
+
+			//draw_line(map[i][j].x, map[i][j].y, map[i][j].x, map[i][j].y, params);
 			j++;
 		}
 		printf("\n");
@@ -261,21 +266,22 @@ int main(void)
 	cols = get_map_cols();
 	map = malloc(sizeof(t_coords*) * (rows + 1));
 	map[rows] = 0;
-	parse_and_fill(cols, map);	
+	printf("cols: %i\n", cols);
+	parse_and_fill(cols, map);
 
 
 	
 	params.mlx = mlx_init();
 	if (!params.mlx)
 		return (1);
-	params.mlx_window = mlx_new_window(params.mlx, 1200, 1200, "Pepe");
+	params.mlx_window = mlx_new_window(params.mlx, 800, 800, "Pepe");
 	if (!params.mlx_window)
 	{
 		write(1, "Error creating window\n", 22);
 	   	exit(1);
 	}
 
-	print_map(map, params);
+	print_map(map, params, cols, rows);
 
 /*	t_coords	*c;
 	int			z;
