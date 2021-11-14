@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/12 17:40:29 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/14 20:23:43 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ t_coords	create_coords(int i, int j, int z)
 {
 	t_coords	co;
 
-	co.x = (i * 10 + j * 10) + 300;
-	co.z = z * 10 - 50;
-	co.y = ((i*10 - j*10) / 2) + 300 - co.z;
+	co.x = (i * 15 + j * 15) + 100;
+	co.z = z * 20;
+	co.y = ((i*15 - j*15) / 2) + 350 - co.z;
 	return (co);
 }
 
@@ -92,7 +92,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 	dy = dy * 2;
 	dx = dx * 2;
 	if ((0 <= x0) && (x0 < 1200) && (0 <= y0) && (y0 < 1200))
-		mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 16409700);
+		mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 0x00ff00);
 	if (dx > dy)
 	{
 		fraction = dy - (dx / 2);
@@ -106,7 +106,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 			}
 			fraction += dy;
 			if ((0 <= x0) && (x0 < 1200) && (0 <= y0) && (y0 < 1200))
-				mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 16409700);
+				mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 0x00ff00);
 		}
 	}
 	else
@@ -122,7 +122,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 			y0 += stepy;
 			fraction += dx;
 			if ((0 <= x0) && (x0 < 1200) && (0 <= y0) && (y0 < 1200))
-				mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 16409700);
+				mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 0xffffff);
 		}
 	}
 }
@@ -143,7 +143,7 @@ int	get_map_cols(void)
 
 	num = 0;
 	cols = 0;
-	fd = open("test_maps/50-4.fdf", O_RDONLY);
+	fd = open("test_maps/42.fdf", O_RDONLY);
 	row = get_next_line(fd);
 	close(fd);
 	while (row && *row)
@@ -169,7 +169,7 @@ int	get_map_rows(void)
 	int		fd;
 
 	rows = 0;
-	fd = open("test_maps/50-4.fdf", O_RDONLY);
+	fd = open("test_maps/42.fdf", O_RDONLY);
 	while (get_next_line(fd))
 		rows++;
 	close(fd);
@@ -187,20 +187,19 @@ void	fill_rows(t_coords **map, char *file)
 
 	space = 0;
 	i = 0;
-	j = 0;
 	fd = open(file, O_RDONLY);
 	row = get_next_line(fd);
 	while (row)
 	{
 		aux = row;
 		j = 0;
-		while (*aux)
+		while (aux && *aux)
 		{
 			if (ft_is_space(*aux) && space == 0)
 			{
 				space = 1;
 				map[i][j] = create_coords(i, j, ft_atoi(aux) + 1);
-			//	printf("%i ", ft_atoi(aux));
+				printf("%i ", ft_atoi(aux));
 				j++;
 			}
 			else
@@ -215,18 +214,19 @@ void	fill_rows(t_coords **map, char *file)
 	close(fd);
 }
 
-void	parse_and_fill(int cols, t_coords **map)
+void	parse_and_fill(int cols, int rows, t_coords **map)
 {
 	int	i;
 
 	i = 0;
-	while (map[i])
+	printf("cols %i", cols);
+	while (i < rows)
 	{
 		map[i] = malloc(sizeof(t_coords) * (cols + 1));
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, "test_maps/50-4.fdf");
+	fill_rows(map, "test_maps/42.fdf");
 }
 
 void	print_map(t_coords **map, t_params params, int cols, int rows)
@@ -266,15 +266,14 @@ int main(void)
 	cols = get_map_cols();
 	map = malloc(sizeof(t_coords*) * (rows + 1));
 	map[rows] = 0;
-	printf("cols: %i\n", cols);
-	parse_and_fill(cols, map);
-
+//	printf("cols: %i\n", cols);
+	parse_and_fill(cols, rows, map);
 
 	
 	params.mlx = mlx_init();
 	if (!params.mlx)
 		return (1);
-	params.mlx_window = mlx_new_window(params.mlx, 800, 800, "Pepe");
+	params.mlx_window = mlx_new_window(params.mlx, 530, 410, "Pepe");
 	if (!params.mlx_window)
 	{
 		write(1, "Error creating window\n", 22);

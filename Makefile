@@ -16,8 +16,7 @@ RM		= rm -f
 			$(CC) $(CFLAGS) -Imlx -c $< -o $(<:.c=.o) -I$(INCS)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(OBJS) -I$(INCS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) -fsanitize=address
-
+			$(CC) $(CFLAGS) $(OBJS) -I$(INCS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) 
 all:		$(NAME)
 
 clean:
