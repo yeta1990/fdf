@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
+/*   By: albgarci <albgarci@student.pyramadrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/14 20:23:43 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/14 22:20:52 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //docs
 //https://github.com/qst0/ft_libgfx#ft_wireframe
 //https://github.com/qst0/ft_wireframe
-//https://harm-smits.github.io/42docs/libs/minilibx/events.html
-//https://github.com/42Paris/minilibx-linux
+//https://harm-smits.github.io/pyradocs/libs/minilibx/events.html
+//https://github.com/pyraParis/minilibx-linux
 //https://github.com/aurelien-brabant/minilibx-posts-code
 //https://github.com/VBrazhnik/FdF/wiki
-//https://stackoverflow.com/c/42network/questions/164
+//https://stackoverflow.com/c/pyranetwork/questions/164
 //https://www.cs.ucdavis.edu/~ma/ECS175_S01/handouts/Bresenham.pdf
 //https://ihcoedu.uobaghdad.edu.iq/wp-content/uploads/sites/27/2020/03/%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D8%A8%D8%A7%D8%AA-1920-3-%D8%B1%D8%B3%D9%88%D9%85-%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.pdf
-//https://stackoverflow.com/c/42network/questions/173?rq=1
+//https://stackoverflow.com/c/pyranetwork/questions/173?rq=1
 //https://www.youtube.com/watch?v=2_BCYD_FwII
 //https://es.wikipedia.org/wiki/Algoritmo_de_Bresenham
 // https://studylib.net/doc/15067802/wire-frame-modeling-an-application-of-bresenham%E2%80%99s-line-dr...
@@ -28,6 +28,9 @@
 // https://www.davrous.com/2013/06/14/tutorial-part-2-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-ts-or-js-drawing-lines-triangles/
 //https://csustan.csustan.edu/~tom/Lecture-Notes/Graphics/Bresenham-Line/Bresenham-Line.pdf
 //https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
+//https://stackoverflow.com/questions/282pyra415/c-bit-wise-operations-with-hex-numbers
+//https://stackoverflow.com/questions/3723846/convert-from-hex-color-to-rgb-struct-in-c/40493179
+//https://web.archive.org/web/20160311235624/http://freespace.virgin.net/hugo.elias/graphics/x_lines.htm
 
 #include "mlx.h"
 #include <unistd.h>
@@ -92,7 +95,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 	dy = dy * 2;
 	dx = dx * 2;
 	if ((0 <= x0) && (x0 < 1200) && (0 <= y0) && (y0 < 1200))
-		mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 0x00ff00);
+		mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 0xffffff);
 	if (dx > dy)
 	{
 		fraction = dy - (dx / 2);
@@ -106,7 +109,7 @@ void	draw_line(int x0, int y0, int x1, int y1, t_params params)
 			}
 			fraction += dy;
 			if ((0 <= x0) && (x0 < 1200) && (0 <= y0) && (y0 < 1200))
-				mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 0x00ff00);
+				mlx_pixel_put(params.mlx, params.mlx_window, x0, y0, 0xffffff);
 		}
 	}
 	else
@@ -134,17 +137,17 @@ static int	ft_is_space(char c)
 	return (0);
 }
 
-int	get_map_cols(void)
+void	get_map_cols(int *cols)
 {
-	int		cols;
 	int		num;
 	int		fd;
 	char	*row;
+	char	*aux;
 
 	num = 0;
-	cols = 0;
-	fd = open("test_maps/42.fdf", O_RDONLY);
+	fd = open("test_maps/pyra.fdf", O_RDONLY);
 	row = get_next_line(fd);
+	aux = row;
 	close(fd);
 	while (row && *row)
 	{
@@ -153,25 +156,31 @@ int	get_map_cols(void)
 			if (num == 0)
 			{
 				num = 1;
-				cols++;
+				(*cols)++;
 			}
 		}
 		else
 			num = 0;
 		row++;
 	}
-	return (cols);
+	free(aux);
 }
 
 int	get_map_rows(void)
 {
 	int		rows;
 	int		fd;
+	char	*row;
 
 	rows = 0;
-	fd = open("test_maps/42.fdf", O_RDONLY);
-	while (get_next_line(fd))
+	fd = open("test_maps/pyra.fdf", O_RDONLY);
+	row = get_next_line(fd);
+	while (row)
+	{
+		free(row);
+		row = get_next_line(fd);
 		rows++;
+	}
 	close(fd);
 	return (rows);
 }
@@ -195,22 +204,21 @@ void	fill_rows(t_coords **map, char *file)
 		j = 0;
 		while (aux && *aux)
 		{
-			if (ft_is_space(*aux) && space == 0)
+			if (j == 0 || (ft_is_space(*aux) && space == 0))
 			{
 				space = 1;
 				map[i][j] = create_coords(i, j, ft_atoi(aux) + 1);
-				printf("%i ", ft_atoi(aux));
 				j++;
 			}
 			else
 				space = 0;
 			aux++;
 		}
-		printf("\n");	
 		free(row);
 		row = get_next_line(fd);
 		i++;
 	}
+	free(row);
 	close(fd);
 }
 
@@ -219,14 +227,14 @@ void	parse_and_fill(int cols, int rows, t_coords **map)
 	int	i;
 
 	i = 0;
-	printf("cols %i", cols);
+//	printf("cols %i", cols);
 	while (i < rows)
 	{
 		map[i] = malloc(sizeof(t_coords) * (cols + 1));
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, "test_maps/42.fdf");
+	fill_rows(map, "test_maps/pyra.fdf");
 }
 
 void	print_map(t_coords **map, t_params params, int cols, int rows)
@@ -240,30 +248,32 @@ void	print_map(t_coords **map, t_params params, int cols, int rows)
 		j = 0;
 		while(map[i][j].x)
 		{
-			printf("(%i, %i, %i),", map[i][j].x, map[i][j].y, map[i][j].z);
+//			printf("(%i, %i, %i),", map[i][j].x, map[i][j].y, map[i][j].z);
 			if (i + 1 < rows && j + 1 < cols)
 			{
-				draw_line(map[i][j].x, map[i][j].y, map[i + 1][j].x, map[i][j + 1].y, params);
-				draw_line(map[i][j].x, map[i][j].y, map[i][j + 1].x, map[i + 1][j].y, params);
+				draw_line(map[i][j].x, map[i][j].y, map[i][j + 1].x, map[i][j + 1].y, params);
+				draw_line(map[i][j].x, map[i][j].y, map[i + 1][j].x, map[i + 1][j].y, params);
 			}
-
-			//draw_line(map[i][j].x, map[i][j].y, map[i][j].x, map[i][j].y, params);
+			else if (i == rows - 1 && j + 1 < cols)
+				draw_line(map[i][j].x, map[i][j].y, map[i][j + 1].x, map[i][j + 1].y, params);
+			else if (j == cols - 1 && i + 1 < rows)
+				draw_line(map[i][j].x, map[i][j].y, map[i + 1][j].x, map[i + 1][j].y, params);
 			j++;
 		}
-		printf("\n");
 		i++;
 	}
 }
 int main(void)
 {
 	t_params	params;
-//	atexit(checkleaks);
+	atexit(checkleaks);
 	int		cols;
 	int		rows;
 	t_coords **map;
 
+	cols = 0;
 	rows = get_map_rows();
-	cols = get_map_cols();
+	get_map_cols(&cols);
 	map = malloc(sizeof(t_coords*) * (rows + 1));
 	map[rows] = 0;
 //	printf("cols: %i\n", cols);
@@ -273,7 +283,8 @@ int main(void)
 	params.mlx = mlx_init();
 	if (!params.mlx)
 		return (1);
-	params.mlx_window = mlx_new_window(params.mlx, 530, 410, "Pepe");
+	params.mlx_window = mlx_new_window(params.mlx, 1200, 1200, "Pepe");
+//	params.mlx_window = mlx_new_window(params.mlx, 530, 410, "Pepe");
 	if (!params.mlx_window)
 	{
 		write(1, "Error creating window\n", 22);
