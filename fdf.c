@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
+/*   By: albgarci <albgarci@student.elem-colmadrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/15 17:59:26 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/18 19:36:31 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //docs
 //https://github.com/qst0/ft_libgfx#ft_wireframe
 //https://github.com/qst0/ft_wireframe
-//https://harm-smits.github.io/42docs/libs/minilibx/events.html
-//https://github.com/42Paris/minilibx-linux
+//https://harm-smits.github.io/elem-coldocs/libs/minilibx/events.html
+//https://github.com/elem-colParis/minilibx-linux
 //https://aurelienbrabant.fr/blog/pixel-drawing-with-the-minilibx
 //https://github.com/aurelien-brabant/minilibx-posts-code
 //https://github.com/VBrazhnik/FdF/wiki
-//https://stackoverflow.com/c/42network/questions/164
+//https://stackoverflow.com/c/elem-colnetwork/questions/164
 //https://www.cs.ucdavis.edu/~ma/ECS175_S01/handouts/Bresenham.pdf
 //https://ihcoedu.uobaghdad.edu.iq/wp-content/uploads/sites/27/2020/03/%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D8%A8%D8%A7%D8%AA-1920-3-%D8%B1%D8%B3%D9%88%D9%85-%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.pdf
-//https://stackoverflow.com/c/42network/questions/173?rq=1
+//https://stackoverflow.com/c/elem-colnetwork/questions/173?rq=1
 //https://www.youtube.com/watch?v=2_BCYD_FwII
 //https://es.wikipedia.org/wiki/Algoritmo_de_Bresenham
 // https://studylib.net/doc/15067802/wire-frame-modeling-an-application-of-bresenham%E2%80%99s-line-dr...
@@ -29,9 +29,13 @@
 // https://www.davrous.com/2013/06/14/tutorial-part-2-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-ts-or-js-drawing-lines-triangles/
 //https://csustan.csustan.edu/~tom/Lecture-Notes/Graphics/Bresenham-Line/Bresenham-Line.pdf
 //https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
-//https://stackoverflow.com/questions/28242415/c-bit-wise-operations-with-hex-numbers
+//https://stackoverflow.com/questions/282elem-col415/c-bit-wise-operations-with-hex-numbers
 //https://stackoverflow.com/questions/3723846/convert-from-hex-color-to-rgb-struct-in-c/40493179
-//https://web.archive.org/web/20160311235624/http://freespace.virgin.net/hugo.elias/graphics/x_lines.htm
+//https://web.archive.org/web/2016061235624/http://freespace.virgin.net/hugo.elias/graphics/x_lines.htm
+//https://harm-smits.github.io/elem-coldocs/libs/minilibx/getting_started.html
+//https://gontjarow.github.io/MiniLibX/mlx-tutorial-create-image.html
+//https://github.com/keuhdall/images_example
+
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -44,13 +48,13 @@ void checkleaks()
 	system("leaks fdf");
 }
 
-t_coords	create_coords(int i, int j, int z)
+t_coords	create_coords(int i, int j, int z, int square_size)
 {
 	t_coords	co;
 
-	co.x = (i * 15 + j * 15);
-	co.z = z * 15;
-	co.y = ((i * 15 - j * 15) / 2) + 325 - co.z;
+	co.x = (i * square_size + j * square_size);
+	co.z = z * square_size;
+	co.y = ((i * square_size - j * square_size) / 2) + 265 - co.z;
 	return (co);
 }
 
@@ -69,7 +73,7 @@ void	get_map_cols(int *cols)
 	char	*aux;
 
 	num = 0;
-	fd = open("test_maps/42.fdf", O_RDONLY);
+	fd = open("test_maps/elem-col.fdf", O_RDONLY);
 	row = get_next_line(fd);
 	aux = row;
 	close(fd);
@@ -97,7 +101,12 @@ int	get_map_rows(void)
 	char	*row;
 
 	rows = 0;
-	fd = open("test_maps/42.fdf", O_RDONLY);
+	fd = open("test_maps/elem-col.fdf", O_RDONLY);
+	if (fd < 0)
+	{
+		perror("fdf");
+		exit(errno);
+	}
 	row = get_next_line(fd);
 	while (row)
 	{
@@ -109,7 +118,7 @@ int	get_map_rows(void)
 	return (rows);
 }
 
-void	fill_rows(t_coords **map, char *file)
+void	fill_rows(t_coords **map, char *file, int cols, int square_size)
 {
 	int		fd;
 	char	*row;
@@ -118,38 +127,41 @@ void	fill_rows(t_coords **map, char *file)
 	int		i;
 	int		j;
 
-
 	space = 0;
 	i = 0;
 	fd = open(file, O_RDONLY);
 	row = get_next_line(fd);
 	while (row)
 	{
+		printf("%i", i);
 		aux = row;
 		j = 0;
-		while (aux && *aux)
+		while (j < cols)
 		{
-			if (j == 0 || (ft_is_space(*aux) && space == 0))
+			if (ft_is_space(*aux) || j == 0)
 			{
 				space = 1;
-				map[i][j] = create_coords(i, j, ft_atoi(aux));
+				printf("%i, ", j);
+				map[i][j] = create_coords(i, j, ft_atoi(aux), square_size);
 				j++;
 			}
 			else
 				space = 0;
 			aux++;
 		}
+		
 		free(row);
 		row = get_next_line(fd);
+//		printf("%s\n", row);
+		printf("\n");
 		i++;
 	}
+//	exit(0);
 	free(row);
 	close(fd);
-
-	
 }
 
-void	parse_and_fill(int cols, int rows, t_coords **map)
+void	parse_and_fill(int cols, int rows, t_coords **map, int square_size)
 {
 	int	i;
 
@@ -160,7 +172,7 @@ void	parse_and_fill(int cols, int rows, t_coords **map)
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, "test_maps/42.fdf");
+	fill_rows(map, "test_maps/elem-col.fdf", cols, square_size);
 }
 
 void	print_map(t_coords **map, t_params *params, int cols, int rows, int initial_x)
@@ -172,9 +184,10 @@ void	print_map(t_coords **map, t_params *params, int cols, int rows, int initial
 	while(map[i])
 	{
 		j = 0;
-		while(map[i][j].x)
+		printf("%i: ", i);
+		while(j < cols)
 		{
-			printf("(%i, %i, %i),", map[i][j].x, map[i][j].y, map[i][j].z);
+			printf("(%i, %i),", map[i][j].x, map[i][j].y);
 			if (i + 1 < rows && j + 1 < cols)
 			{
 				draw_line(map[i][j].x + initial_x, map[i][j].y, map[i][j + 1].x + initial_x, map[i][j + 1].y, params);
@@ -185,10 +198,11 @@ void	print_map(t_coords **map, t_params *params, int cols, int rows, int initial
 			else if (j == cols - 1 && i + 1 < rows)
 				draw_line(map[i][j].x + initial_x, map[i][j].y, map[i + 1][j].x + initial_x, map[i + 1][j].y, params);
 //			diagonal
-//			if (i > 0)
-//				draw_line(map[i][j].x, map[i][j].y, map[i - 1][j + 1].x, map[i - 1][j + 1].y, params);
+	//		if (i > 0)
+	//			draw_line(map[i][j].x + initial_x, map[i][j].y, map[i - 1][j + 1].x + initial_x, map[i - 1][j + 1].y, params);
 			j++;
 		}
+		printf("\n");
 		i++;
 	}
 }
@@ -198,7 +212,7 @@ int main(void)
 //	atexit(checkleaks);
 	int	map_dims[2];
 	t_coords **map;
-	int	win_dims[2];
+	int	win_dims[3];
 
 	map_dims[0] = 0;
 	map_dims[1] = get_map_rows();
@@ -207,9 +221,7 @@ int main(void)
 	map[map_dims[1]] = 0;
 
 	set_window_dimensions(&win_dims, map_dims);
-//	printf("cols: %i", cols);
-//	printf(" rows: %i\n", rows);
-	parse_and_fill(map_dims[0], map_dims[1], map);
+	parse_and_fill(map_dims[0], map_dims[1], map, win_dims[2]);
 
 	int		initial_x;
 //	int		initial_y;
@@ -220,8 +232,7 @@ int main(void)
 	if (!params.mlx)
 		return (1);
 
-	params.mlx_window = mlx_new_window(params.mlx, win_dims[0], win_dims[1], "Pepe");
-//	params.mlx_window = mlx_new_window(params.mlx, 530, 410, "Pepe");
+	params.mlx_window = mlx_new_window(params.mlx, win_dims[0], win_dims[1], "fdf");
 	if (!params.mlx_window)
 	{
 		write(1, "Error creating window\n", 22);
