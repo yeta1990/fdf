@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albgarci <albgarci@student.elem-colmadrid>       +#+  +:+       +#+        */
+/*   By: albgarci <albgarci@student.pylone_okmadrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/18 19:36:31 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/19 00:57:27 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //docs
 //https://github.com/qst0/ft_libgfx#ft_wireframe
 //https://github.com/qst0/ft_wireframe
-//https://harm-smits.github.io/elem-coldocs/libs/minilibx/events.html
-//https://github.com/elem-colParis/minilibx-linux
+//https://harm-smits.github.io/pylone_okdocs/libs/minilibx/events.html
+//https://github.com/pylone_okParis/minilibx-linux
 //https://aurelienbrabant.fr/blog/pixel-drawing-with-the-minilibx
 //https://github.com/aurelien-brabant/minilibx-posts-code
 //https://github.com/VBrazhnik/FdF/wiki
-//https://stackoverflow.com/c/elem-colnetwork/questions/164
+//https://stackoverflow.com/c/pylone_oknetwork/questions/164
 //https://www.cs.ucdavis.edu/~ma/ECS175_S01/handouts/Bresenham.pdf
 //https://ihcoedu.uobaghdad.edu.iq/wp-content/uploads/sites/27/2020/03/%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D8%A8%D8%A7%D8%AA-1920-3-%D8%B1%D8%B3%D9%88%D9%85-%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.pdf
-//https://stackoverflow.com/c/elem-colnetwork/questions/173?rq=1
+//https://stackoverflow.com/c/pylone_oknetwork/questions/173?rq=1
 //https://www.youtube.com/watch?v=2_BCYD_FwII
 //https://es.wikipedia.org/wiki/Algoritmo_de_Bresenham
 // https://studylib.net/doc/15067802/wire-frame-modeling-an-application-of-bresenham%E2%80%99s-line-dr...
@@ -29,10 +29,10 @@
 // https://www.davrous.com/2013/06/14/tutorial-part-2-learning-how-to-write-a-3d-soft-engine-from-scratch-in-c-ts-or-js-drawing-lines-triangles/
 //https://csustan.csustan.edu/~tom/Lecture-Notes/Graphics/Bresenham-Line/Bresenham-Line.pdf
 //https://www.geeksforgeeks.org/bresenhams-line-generation-algorithm/
-//https://stackoverflow.com/questions/282elem-col415/c-bit-wise-operations-with-hex-numbers
+//https://stackoverflow.com/questions/282pylone_ok415/c-bit-wise-operations-with-hex-numbers
 //https://stackoverflow.com/questions/3723846/convert-from-hex-color-to-rgb-struct-in-c/40493179
 //https://web.archive.org/web/2016061235624/http://freespace.virgin.net/hugo.elias/graphics/x_lines.htm
-//https://harm-smits.github.io/elem-coldocs/libs/minilibx/getting_started.html
+//https://harm-smits.github.io/pylone_okdocs/libs/minilibx/getting_started.html
 //https://gontjarow.github.io/MiniLibX/mlx-tutorial-create-image.html
 //https://github.com/keuhdall/images_example
 
@@ -73,7 +73,7 @@ void	get_map_cols(int *cols)
 	char	*aux;
 
 	num = 0;
-	fd = open("test_maps/elem-col.fdf", O_RDONLY);
+	fd = open("test_maps/pylone_ok.fdf", O_RDONLY);
 	row = get_next_line(fd);
 	aux = row;
 	close(fd);
@@ -101,7 +101,7 @@ int	get_map_rows(void)
 	char	*row;
 
 	rows = 0;
-	fd = open("test_maps/elem-col.fdf", O_RDONLY);
+	fd = open("test_maps/pylone_ok.fdf", O_RDONLY);
 	if (fd < 0)
 	{
 		perror("fdf");
@@ -138,7 +138,7 @@ void	fill_rows(t_coords **map, char *file, int cols, int square_size)
 		j = 0;
 		while (j < cols)
 		{
-			if (ft_is_space(*aux) || j == 0)
+			if ((ft_is_space(*aux) && space == 0) || j == 0)
 			{
 				space = 1;
 				printf("%i, ", j);
@@ -149,7 +149,6 @@ void	fill_rows(t_coords **map, char *file, int cols, int square_size)
 				space = 0;
 			aux++;
 		}
-		
 		free(row);
 		row = get_next_line(fd);
 //		printf("%s\n", row);
@@ -172,7 +171,7 @@ void	parse_and_fill(int cols, int rows, t_coords **map, int square_size)
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, "test_maps/elem-col.fdf", cols, square_size);
+	fill_rows(map, "test_maps/pylone_ok.fdf", cols, square_size);
 }
 
 void	print_map(t_coords **map, t_params *params, int cols, int rows, int initial_x)
@@ -188,7 +187,7 @@ void	print_map(t_coords **map, t_params *params, int cols, int rows, int initial
 		while(j < cols)
 		{
 			printf("(%i, %i),", map[i][j].x, map[i][j].y);
-			if (i + 1 < rows && j + 1 < cols)
+			if (i < rows - 1 && j < cols - 1)
 			{
 				draw_line(map[i][j].x + initial_x, map[i][j].y, map[i][j + 1].x + initial_x, map[i][j + 1].y, params);
 				draw_line(map[i][j].x + initial_x, map[i][j].y, map[i + 1][j].x + initial_x, map[i + 1][j].y, params);
