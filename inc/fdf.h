@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 20:38:58 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/20 22:41:11 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct	s_params{
 
 int			ft_atoi(const char *str);
 void		print_map(t_coords **map, t_params *params, int cols, int rows);
-void		draw_line(int x0, int y0, int x1, int y1, t_params *params);
+void		draw_line(t_coords start, t_coords end, t_params *params);
 int			mouse_win3(int x, int y, void *p);
 int			window_close_destroy(int keycode, t_params *params);
 void		free_mlx_ptr(void *mlx);

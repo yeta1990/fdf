@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 20:28:21 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/20 22:43:31 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,22 +115,22 @@ void	print_map(t_coords **map, t_params *params, int cols, int rows)
 			if (i < rows - 1 && j < cols - 1)
 			{
 			//	printf("%i: (%i, %i),", j, map[i][j].x, map[i][j].y);
-				draw_line(map[i][j].x, map[i][j].y, map[i][j + 1].x, map[i][j + 1].y, params);
-				draw_line(map[i][j].x, map[i][j].y, map[i + 1][j].x, map[i + 1][j].y, params);
+				draw_line(map[i][j], map[i][j + 1], params);
+				draw_line(map[i][j], map[i + 1][j], params);
 			}
 			else if (i == rows - 1 && j + 1 < cols)
 			{
 			//	printf("%i: (%i, %i),", j, map[i][j].x, map[i][j].y);
-				draw_line(map[i][j].x, map[i][j].y, map[i][j + 1].x, map[i][j + 1].y, params);
+				draw_line(map[i][j], map[i][j + 1], params);
 			}
 			else if (j == cols - 1 && i + 1 < rows)
 			{
 			//	printf("%i: (%i, %i),", j, map[i][j].x, map[i][j].y);
-				draw_line(map[i][j].x, map[i][j].y, map[i + 1][j].x, map[i + 1][j].y, params);
+				draw_line(map[i][j], map[i + 1][j], params);
 			}
 //			diagonal
 			if (i > 0 && j < cols - 1)
-				draw_line(map[i][j].x, map[i][j].y, map[i - 1][j + 1].x, map[i - 1][j + 1].y, params);
+				draw_line(map[i][j], map[i - 1][j + 1], params);
 			j++;
 		}
 //		printf("\n");
