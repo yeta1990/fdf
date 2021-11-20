@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 19:39:17 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/20 20:38:58 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define FDF_H
 
 typedef struct	s_colors{
-	int	r;
-	int	g;
-	int	b;
-	int rgb;
+	int				r;
+	int				g;
+	int				b;
+	unsigned int	rgb;
 }				t_colors;
 
 typedef struct	s_coords{

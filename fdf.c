@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 19:42:04 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/20 20:28:21 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	get_map_cols(int *cols)
 	char	*aux;
 
 	num = 0;
-	fd = open("test_maps/42.fdf", O_RDONLY);
+	fd = open("test_maps/elem-col.fdf", O_RDONLY);
 	row = get_next_line(fd);
 	aux = row;
 	close(fd);
@@ -83,7 +83,7 @@ int	get_map_rows(void)
 	char	*row;
 
 	rows = 0;
-	fd = open("test_maps/42.fdf", O_RDONLY);
+	fd = open("test_maps/elem-col.fdf", O_RDONLY);
 	if (fd < 0)
 	{
 		perror("fdf");

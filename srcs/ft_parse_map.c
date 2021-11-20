@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
+/*   By: albgarci <albgarci@student.elem-colmadrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 18:24:12 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 19:45:28 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/20 20:38:28 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	parse_and_fill(int cols, int rows, t_coords **map, int square_size)
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, "test_maps/42.fdf", cols, square_size);
+	fill_rows(map, "test_maps/elem-col.fdf", cols, square_size);
 }
 
 void	fill_rows(t_coords **map, char *file, int cols, int square_size)
@@ -51,7 +51,6 @@ void	fill_rows(t_coords **map, char *file, int cols, int square_size)
 				space = 0;
 				printf("%i, ", j);
 				map[i][j] = create_coords(i, j, ft_atoi(aux), square_size);
-				map[i][j].colors = hex_to_int("FFFFFF");
 				j++;
 			}
 			else if (ft_memcmp(aux, ",0x", 3) == 0 && j > 0)
@@ -75,7 +74,8 @@ t_coords	create_coords(int i, int j, int z, int square_size)
 //	printf("(%i, %i, %i)\n", i, j, z);
 	co.x = (i * square_size + j * square_size);
 	co.z = z * square_size;
-	co.y = ((i * square_size - j * square_size) / 2) - co.z + 256;
+	co.y = ((i * square_size - j * square_size) / 2) - co.z;
+	co.colors = hex_to_int("FFFFFF");
 	return (co);
 }
 
