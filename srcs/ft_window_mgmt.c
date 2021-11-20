@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 12:29:37 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 01:48:44 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/20 19:24:55 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	window_close_destroy(int keycode, t_params *params)
 	}
 	return (1);
 }
-
 
 //add z dimension to map_dims. if the map is taller than wide, the result window has to be consistent with that
 void	set_window_dimensions(int (*win_dims)[3], int map_dims[2])
@@ -75,10 +74,9 @@ int	set_initial_x(t_coords **map, int rows, int cols, int win_dims[2])
 	int	max_width;
 	int	initial_x;
 
-	rows += 0;
 	max_width = map[rows - 1][cols - 1].x - map[0][0].x;
 	initial_x = win_dims[0] / 2 - max_width / 2;
-	printf("max_width: %i, initial_x: %i\n", max_width, initial_x);
+//	printf("max_width: %i, initial_x: %i\n", max_width, initial_x);
 	return (initial_x);
 }
 
