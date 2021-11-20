@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 12:29:37 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/18 20:00:41 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/20 01:48:44 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	set_window_dimensions(int (*win_dims)[3], int map_dims[2])
 		(*win_dims)[1] = 800;
 		(*win_dims)[2] = 8;
 	}
-	else if (diagonal > 800)
+	else if (diagonal > 500)
 	{
 		(*win_dims)[0] = 800;
-		(*win_dims)[1] = 800;
-		(*win_dims)[2] = 10;
+		(*win_dims)[1] = 600;
+		(*win_dims)[2] = 13;
 	}
 	else
 	{
@@ -77,8 +77,15 @@ int	set_initial_x(t_coords **map, int rows, int cols, int win_dims[2])
 
 	rows += 0;
 	max_width = map[rows - 1][cols - 1].x - map[0][0].x;
-//	printf("corner1: %i, corner0: %i\n", map[rows - 1][cols].x, map[0][0].x);
 	initial_x = win_dims[0] / 2 - max_width / 2;
 	printf("max_width: %i, initial_x: %i\n", max_width, initial_x);
 	return (initial_x);
+}
+
+int	set_initial_y(t_coords **map, int rows, int win_dims[2])
+{
+	int	initial_y;
+
+	initial_y = win_dims[1] - map[rows - 1][0].y - 10;
+	return (initial_y);
 }
