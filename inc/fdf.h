@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 22:41:11 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 00:34:00 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,8 @@ void		fill_rows(t_coords **map, char *file, int cols, int square_size);
 t_coords	create_coords(int i, int j, int z, int square_size);
 int			ft_is_space(char c);
 void		center_map(t_coords **map, int rows, int cols, int win_dims[2]);
+double		get_relative_position(int start, int end, int pos);
+int			calc_saturation(int	start_color, int end_color, double relation);
+int			calculate_point_color(t_coords start, t_coords end, int pos, int comb);
 
 #endif

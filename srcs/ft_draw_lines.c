@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 12:19:47 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 22:40:03 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 00:47:15 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ void	draw_line(t_coords start, t_coords end, t_params *params)
 	int	stepy;
 	int	fraction;
 	t_coords initial;
+	int	color;
 
+	color = 0;
 	initial = start;
+	initial.x = start.x;
+
 	dx = end.x - start.x;
 	dy = end.y - start.y;
 	if (dy < 0)
@@ -42,7 +46,7 @@ void	draw_line(t_coords start, t_coords end, t_params *params)
 	dy = dy * 2;
 	dx = dx * 2;
 	if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
-		mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, 0xffffff);
+		mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, start.colors.rgb);
 	if (dx > dy)
 	{
 		fraction = dy - (dx / 2);
@@ -56,7 +60,10 @@ void	draw_line(t_coords start, t_coords end, t_params *params)
 			}
 			fraction += dy;
 			if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
-				mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, 0xffffff);
+			{
+				color = calculate_point_color(initial, end, start.x, 1);
+				mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, color);
+			}
 		}
 	}
 	else
@@ -64,16 +71,19 @@ void	draw_line(t_coords start, t_coords end, t_params *params)
 		fraction = dx - (dy / 2);
 		while (start.y != end.y)
 		{
-			start.y += stepy;
 			if (fraction >= 0)
 			{
 				start.x += stepx;
 				fraction -= dy;
 			}
-
+			start.y += stepy;
 			fraction += dx;
 			if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
-				mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, 0xffffff);
+			{
+				printf("initial: %i, end: %i, current: %i\n", initial.y, end.y, start.y);
+				color = calculate_point_color(initial, end, start.y, 2);
+				mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, color);
+			}
 		}
 	}
 }
