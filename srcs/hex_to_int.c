@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 14:00:20 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 20:49:38 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 10:53:43 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	char_in_hex(char c)
 	int		i;
 
 	i = 0;
-	base = malloc(sizeof(char) * 17);
+//	base = malloc(sizeof(char) * 17);
 	base = "0123456789ABCDEF";
 	while (base[i])
 	{
@@ -97,7 +97,7 @@ int	hex_decimal_converter(char a, char b)
 	int		num;
 	char	*base;
 
-	base = malloc(sizeof(char) * 17);
+//	base = malloc(sizeof(char) * 17);
 	base = "0123456789ABCDEF";
 	num = char_position(base, ft_toupper(b)) + (char_position(base, ft_toupper(a)) * 16);
 	return (num);

@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 01:00:24 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 12:16:10 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,11 @@ void		center_map(t_coords **map, int rows, int cols, int win_dims[2]);
 double		get_relative_position(int start, int end, int pos);
 int			calc_saturation(int	start_color, int end_color, double relation);
 int			calculate_point_color(t_coords start, t_coords end, int pos, int comb);
+void		free_map(t_coords **map, int rows, int cols);
+void		create_window_hooks(t_coords **map, int map_dims[2], int win_dims[3]);
+int			byebye(void);
+void		draw_vertical_line(t_params *params, t_coords start, t_coords end, t_coords initial);
+void		draw_horizontal_line(t_params *params, t_coords start, t_coords end, t_coords initial);
+void		slope_calc(int *dx, int *dy, int *stepx, int *stepy);
 
 #endif

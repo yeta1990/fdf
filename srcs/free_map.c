@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_fdf.c                                         :+:      :+:    :+:   */
+/*   free_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/21 11:19:47 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 11:19:49 by albgarci         ###   ########.fr       */
+/*   Created: 2021/11/21 10:29:36 by albgarci          #+#    #+#             */
+/*   Updated: 2021/11/21 11:20:46 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <OpenGL/gl3.h>
-#include <stdlib.h>
-#include "mlx_int.h"
+#include "fdf.h"
 
-void	free_mlx_ptr(void *mlx)
+void	free_map(t_coords **map, int rows, int cols)
 {
-	free(((mlx_ptr_t *)(mlx))->font->buffer);
-	free(((mlx_ptr_t *)(mlx))->font);
-	free(mlx);
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (i < rows)
+	{
+		j = 0;
+		while (j < cols)
+		{
+			free(map[i]);
+			j++;
+		}
+		i++;
+	}
+	free(map);
 }

@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 12:29:37 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/20 19:24:55 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 10:56:10 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ int	window_close_destroy(int keycode, t_params *params)
 {
 	if (keycode == 53)
 	{
+		mlx_clear_window(params->mlx, params->mlx_window);
 		mlx_destroy_window(params->mlx, params->mlx_window);
 	//	mlx_destroy_window(params.mlx, params.mlx_window);
-		free_mlx_ptr(params->mlx);
-		exit(0);
+	//	free_mlx_ptr(params->mlx);
+	//	exit(0);
 	}
 	return (1);
 }
