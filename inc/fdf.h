@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 12:16:10 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 12:34:05 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int			char_in_hex(char c);
 void		ft_putstr_fd(char *, int fd);
 void		ft_putchar_fd(char c, int fd);
 int			ft_toupper(int c);
-int			char_position(char *s, int c);
+int			char_pos(char *s, int c);
 int			hex_decimal_converter(char a, char b);
-void		parse_and_fill(int cols, int rows, t_coords **map, int square_size, char *file);
+void		parse_and_fill(int map_dims[2], t_coords **map, int sq_size, char *file);
 void		fill_rows(t_coords **map, char *file, int cols, int square_size);
 t_coords	create_coords(int i, int j, int z, int square_size);
 int			ft_is_space(char c);
@@ -70,5 +70,6 @@ int			byebye(void);
 void		draw_vertical_line(t_params *params, t_coords start, t_coords end, t_coords initial);
 void		draw_horizontal_line(t_params *params, t_coords start, t_coords end, t_coords initial);
 void		slope_calc(int *dx, int *dy, int *stepx, int *stepy);
+int			hex_map_checker(char *str);
 
 #endif

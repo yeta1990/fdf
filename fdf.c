@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 11:14:36 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 12:32:31 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	main(int argc, char **argv)
 	map = malloc(sizeof(t_coords *) * (map_dims[1] + 1));
 	map[map_dims[1]] = 0;
 	set_window_dimensions(&win_dims, map_dims);
-	parse_and_fill(map_dims[0], map_dims[1], map, win_dims[2], argv[1]);
+	parse_and_fill(map_dims, map, win_dims[2], argv[1]);
 	center_map(map, map_dims[1], map_dims[0], win_dims);
 	create_window_hooks(map, map_dims, win_dims);
 	exit(0);

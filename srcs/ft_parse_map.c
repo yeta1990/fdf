@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: albgarci <albgarci@student.elem-colmadrid.c      +#+  +:+       +#+        */
+/*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/20 18:24:12 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 01:00:57 by albgarci         ###   ########.fr       */
+/*   Created: 2021/11/21 12:30:15 by albgarci          #+#    #+#             */
+/*   Updated: 2021/11/21 12:37:24 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	parse_and_fill(int cols, int rows, t_coords **map, int square_size, char *file)
+void	parse_and_fill(int map_dims[2], t_coords **map, int sq_size, char *file)
 {
 	int	i;
 
 	i = 0;
-	while (i < rows)
+	while (i < map_dims[1])
 	{
-		map[i] = malloc(sizeof(t_coords) * (cols + 1));
+		map[i] = malloc(sizeof(t_coords) * (map_dims[0] + 1));
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, file, cols, square_size);
+	fill_rows(map, file, map_dims[0], sq_size);
 }
 
 void	fill_rows(t_coords **map, char *file, int cols, int square_size)
@@ -43,13 +43,11 @@ void	fill_rows(t_coords **map, char *file, int cols, int square_size)
 	{
 		aux = row;
 		j = 0;
-		cols *= 1;
 		while (*aux)
 		{
 			if ((ft_is_space(*aux) == 0 && space == 1) || j == 0)
 			{
 				space = 0;
-				printf("%i, ", j);
 				map[i][j] = create_coords(i, j, ft_atoi(aux), square_size);
 				j++;
 			}
@@ -71,7 +69,6 @@ t_coords	create_coords(int i, int j, int z, int square_size)
 {
 	t_coords	co;
 
-//	printf("(%i, %i, %i)\n", i, j, z);
 	co.x = (i * square_size + j * square_size);
 	co.z = z * square_size;
 	co.y = ((i * square_size - j * square_size) / 2) - co.z;

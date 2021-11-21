@@ -1,4 +1,4 @@
-SRCS	= fdf.c	srcs/free_fdf.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/ft_atoi.c srcs/ft_draw_lines.c srcs/ft_window_mgmt.c srcs/ft_memcmp.c srcs/hex_to_int.c srcs/ft_putstr_fd.c srcs/ft_putchar_fd.c srcs/ft_parse_map.c srcs/color_interpolation.c srcs/free_map.c srcs/ft_window_mgmt2.c
+SRCS	= fdf.c	srcs/free_fdf.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/ft_atoi.c srcs/ft_draw_lines.c srcs/ft_window_mgmt.c srcs/ft_memcmp.c srcs/hex_to_int.c srcs/ft_putstr_fd.c srcs/ft_putchar_fd.c srcs/ft_parse_map.c srcs/color_interpolation.c srcs/free_map.c srcs/ft_window_mgmt2.c srcs/ft_toupper.c
 
 INCS	= inc
 
