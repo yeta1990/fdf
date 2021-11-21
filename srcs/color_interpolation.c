@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 22:46:26 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 11:18:09 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:54:39 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	calc_saturation(int start_color, int end_color, double relation)
 	return ((int)((1 - relation) * start_color + relation * end_color));
 }
 
-int	calculate_point_color(t_coords start, t_coords end, int pos, int comb)
+int	calc_point_color(t_coords start, t_coords end, int pos, int comb)
 {
 	int		red;
 	int		green;

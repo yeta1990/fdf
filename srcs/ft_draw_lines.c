@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 12:19:47 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 12:15:29 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:55:08 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	draw_line(t_coords start, t_coords end, t_params *params)
 				fraction -= dx;
 			}
 			fraction += dy;
-			draw_horizontal_line(params, start, end, initial);
+			draw_horiz(params, start, end, initial);
 		}
 	}
 	else
@@ -56,30 +56,30 @@ void	draw_line(t_coords start, t_coords end, t_params *params)
 			}
 			start.y += stepy;
 			fraction += dx;
-			draw_vertical_line(params, start, end, initial);
+			draw_vert(params, start, end, initial);
 		}
 	}
 }
 
-void	draw_horizontal_line(t_params *params, t_coords start, t_coords end, t_coords initial)
+void	draw_horiz(t_params *p, t_coords start, t_coords end, t_coords ini)
 {
 	int	color;
 
 	if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
 	{
-		color = calculate_point_color(initial, end, start.x, 1);
-		mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, color);
+		color = calc_point_color(ini, end, start.x, 1);
+		mlx_pixel_put(p->mlx, p->mlx_window, start.x, start.y, color);
 	}
 }
 
-void	draw_vertical_line(t_params *params, t_coords start, t_coords end, t_coords initial)
+void	draw_vert(t_params *p, t_coords start, t_coords end, t_coords ini)
 {
 	int	color;
 
 	if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
 	{
-		color = calculate_point_color(initial, end, start.y, 2);
-		mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, color);
+		color = calc_point_color(ini, end, start.y, 2);
+		mlx_pixel_put(p->mlx, p->mlx_window, start.x, start.y, color);
 	}
 }
 
