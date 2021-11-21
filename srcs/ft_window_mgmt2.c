@@ -6,13 +6,13 @@
 /*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 10:59:18 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 11:07:32 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:32:27 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	create_window_hooks(t_coords **map, int map_dims[2], int win_dims[3])
+void	create_window_hooks(t_coords **map, int map_dims[2], int w_dims[3])
 {
 	t_params	params;
 
@@ -22,15 +22,15 @@ void	create_window_hooks(t_coords **map, int map_dims[2], int win_dims[3])
 		ft_putstr_fd("Error creating window\n", 2);
 		exit(1);
 	}
-	params.mlx_window = mlx_new_window(params.mlx, win_dims[0], win_dims[1], "fdf");
+	params.mlx_window = mlx_new_window(params.mlx, w_dims[0], w_dims[1], "fdf");
 	if (!params.mlx_window)
 	{
 		write(1, "Error creating window\n", 22);
-	   	exit(1);
+		exit(1);
 	}
 	print_map(map, &params, map_dims[0], map_dims[1]);
 	mlx_key_hook(params.mlx_window, window_close_destroy, &params);
-	mlx_hook(params.mlx_window, 17, (1L<<17), byebye, &params);
+	mlx_hook(params.mlx_window, 17, (1L << 17), byebye, &params);
 	mlx_loop(params.mlx);
 }
 

@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 12:32:31 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:23:39 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,34 @@ void	checkleaks(void)
 {
 	system("leaks fdf");
 }
+
+//	atexit(checkleaks);
+int	main(int argc, char **argv)
+{
+	int			map_dims[2];
+	t_coords	**map;
+	int			win_dims[3];
+
+	if (argc != 2)
+	{
+		ft_putstr_fd("Usage: ./fdf [map.fdf]\n", 2);
+		exit(1);
+	}
+	map = 0;
+	map_dims[0] = 0;
+	map_dims[1] = get_map_rows(argv[1]);
+	get_map_cols(&map_dims[0], argv[1]);
+	set_window_dimensions(&win_dims, map_dims);
+	map = assign_memory(map_dims);
+	fill_rows(map, argv[1], win_dims[2]);
+	center_map(map, map_dims[1], map_dims[0], win_dims);
+	create_window_hooks(map, map_dims, win_dims);
+	exit(0);
+}
+
+//	free_mlx_ptr(params.mlx);
+//	free_map(map, map_dims[1], map_dims[0]);
+
 
 void	get_map_cols(int *cols, char *file)
 {
@@ -99,30 +127,3 @@ void	print_map(t_coords **map, t_params *params, int cols, int rows)
 		i++;
 	}
 }
-
-//	atexit(checkleaks);
-int	main(int argc, char **argv)
-{
-	int			map_dims[2];
-	t_coords	**map;
-	int			win_dims[3];
-
-	if (argc != 2)
-	{
-		ft_putstr_fd("Usage: ./fdf [map.fdf]\n", 2);
-		exit(1);
-	}
-	map_dims[0] = 0;
-	map_dims[1] = get_map_rows(argv[1]);
-	get_map_cols(&map_dims[0], argv[1]);
-	map = malloc(sizeof(t_coords *) * (map_dims[1] + 1));
-	map[map_dims[1]] = 0;
-	set_window_dimensions(&win_dims, map_dims);
-	parse_and_fill(map_dims, map, win_dims[2], argv[1]);
-	center_map(map, map_dims[1], map_dims[0], win_dims);
-	create_window_hooks(map, map_dims, win_dims);
-	exit(0);
-}
-
-//	free_mlx_ptr(params.mlx);
-//	free_map(map, map_dims[1], map_dims[0]);
