@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 00:48:16 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 01:00:16 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void checkleaks()
 	system("leaks fdf");
 }
 
-void	get_map_cols(int *cols)
+void	get_map_cols(int *cols, char *file)
 {
 	int		num;
 	int		fd;
@@ -55,7 +55,7 @@ void	get_map_cols(int *cols)
 	char	*aux;
 
 	num = 0;
-	fd = open("test_maps/elem-col.fdf", O_RDONLY);
+	fd = open(file, O_RDONLY);
 	row = get_next_line(fd);
 	aux = row;
 	close(fd);
@@ -76,14 +76,14 @@ void	get_map_cols(int *cols)
 	free(aux);
 }
 
-int	get_map_rows(void)
+int	get_map_rows(char *file)
 {
 	int		rows;
 	int		fd;
 	char	*row;
 
 	rows = 0;
-	fd = open("test_maps/elem-col.fdf", O_RDONLY);
+	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
 		perror("fdf");
@@ -109,35 +109,26 @@ void	print_map(t_coords **map, t_params *params, int cols, int rows)
 	while(i < rows)
 	{
 		j = 0;
-	//	printf("%i: ", i);
 		while(j < cols)
 		{
 			if (i < rows - 1 && j < cols - 1)
 			{
-			//	printf("%i: (%i, %i),", j, map[i][j].x, map[i][j].y);
 				draw_line(map[i][j], map[i][j + 1], params);
 				draw_line(map[i][j], map[i + 1][j], params);
 			}
 			else if (i == rows - 1 && j + 1 < cols)
-			{
-			//	printf("%i: (%i, %i),", j, map[i][j].x, map[i][j].y);
 				draw_line(map[i][j], map[i][j + 1], params);
-			}
 			else if (j == cols - 1 && i + 1 < rows)
-			{
-			//	printf("%i: (%i, %i),", j, map[i][j].x, map[i][j].y);
 				draw_line(map[i][j], map[i + 1][j], params);
-			}
 //			diagonal
 			if (i > 0 && j < cols - 1)
 				draw_line(map[i][j], map[i - 1][j + 1], params);
 			j++;
 		}
-//		printf("\n");
 		i++;
 	}
 }
-int main(void)
+int main(int argc, char **argv)
 {
 	t_params	params;
 //	atexit(checkleaks);
@@ -145,14 +136,19 @@ int main(void)
 	t_coords **map;
 	int	win_dims[3];
 
+	if (argc != 2)
+	{
+		ft_putstr_fd("Usage: ./fdf [map.fdf]\n", 2);
+		exit(1);
+	}
 	map_dims[0] = 0;
-	map_dims[1] = get_map_rows();
-	get_map_cols(&map_dims[0]);
+	map_dims[1] = get_map_rows(argv[1]);
+	get_map_cols(&map_dims[0], argv[1]);
 	map = malloc(sizeof(t_coords*) * (map_dims[1] + 1));
 	map[map_dims[1]] = 0;
 
 	set_window_dimensions(&win_dims, map_dims);
-	parse_and_fill(map_dims[0], map_dims[1], map, win_dims[2]);
+	parse_and_fill(map_dims[0], map_dims[1], map, win_dims[2], argv[1]);
 	center_map(map, map_dims[1], map_dims[0], win_dims);
 
 	params.mlx = mlx_init();

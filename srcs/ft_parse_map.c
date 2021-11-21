@@ -6,13 +6,13 @@
 /*   By: albgarci <albgarci@student.elem-colmadrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/20 18:24:12 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 00:47:55 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 01:00:57 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	parse_and_fill(int cols, int rows, t_coords **map, int square_size)
+void	parse_and_fill(int cols, int rows, t_coords **map, int square_size, char *file)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ void	parse_and_fill(int cols, int rows, t_coords **map, int square_size)
 		i++;
 	}
 	map[i] = 0;
-	fill_rows(map, "test_maps/elem-col.fdf", cols, square_size);
+	fill_rows(map, file, cols, square_size);
 }
 
 void	fill_rows(t_coords **map, char *file, int cols, int square_size)

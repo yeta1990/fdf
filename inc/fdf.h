@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 00:34:00 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/21 01:00:24 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void		ft_putchar_fd(char c, int fd);
 int			ft_toupper(int c);
 int			char_position(char *s, int c);
 int			hex_decimal_converter(char a, char b);
-void		parse_and_fill(int cols, int rows, t_coords **map, int square_size);
+void		parse_and_fill(int cols, int rows, t_coords **map, int square_size, char *file);
 void		fill_rows(t_coords **map, char *file, int cols, int square_size);
 t_coords	create_coords(int i, int j, int z, int square_size);
 int			ft_is_space(char c);
