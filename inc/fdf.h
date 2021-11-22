@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 23:54:23 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/22 16:39:14 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ typedef struct s_params{
 	void	*mlx_window;
 }				t_params;
 
+typedef struct s_line{
+	t_coords	*point;
+	t_coords	*end;
+	t_coords	origin;
+	int			dx;
+	int			dy;
+	int			stepx;
+	int			stepy;
+	int			fraction;
+}				t_line;
+
 int			ft_atoi(const char *str);
 void		print_map(t_coords **map, t_params *params, int cols, int rows);
 void		draw_line(t_coords start, t_coords end, t_params *params);
@@ -67,13 +78,18 @@ int			calc_point_color(t_coords start, t_coords end, int pos, int comb);
 void		free_map(t_coords **map, int rows, int cols);
 void		create_window_hooks(t_coords **map, int map_dims[2], int w_dims[3]);
 int			byebye(void);
-void		draw_vert(t_params *p, t_coords start, t_coords end, t_coords ini);
-void		draw_horiz(t_params *p, t_coords start, t_coords end, t_coords ini);
+//void		draw_vert(t_params *p, t_coords *start, t_coords *end, t_coords ini);
+void		draw_horizontal(t_params *p, t_line *l);
+void		draw_vertical(t_params *p, t_line *l);
+//void		draw_horiz(t_params *p, t_coords *start, t_coords *end, t_coords ini);
 void		slope_calc(int *dx, int *dy, int *stepx, int *stepy);
 int			hex_map_checker(char *str);
 t_coords	**assign_memory(int map_dims[2]);
 void		get_map_cols(int *cols, char *file);
 int			get_map_rows(char *file);
 void		parse_one_row(char *row, t_coords ***map, int square_size, int i);
+t_line		set_line_params(t_coords *start, t_coords *end);
+void		draw_horizontal(t_params *p, t_line *l);
+int			pixel_into_scope(t_coords *point);
 
 #endif

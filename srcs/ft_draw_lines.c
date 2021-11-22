@@ -6,84 +6,106 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 12:19:47 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 23:55:08 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/22 16:43:08 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+// 	Creates t_line struct with all needed parameters to draw a line:
+// 	- Point: coords of the pixel to be printed, change through drawing iteration
+// 	- Origin: copy of start, mainly needed to calculate color gradient point to
+// point
+//	- End: needed to stop drawing and to calculate color of the "Point"
+//	- Dx, dy, stepx, stepy: other params to take into account before
+//	drawing a pixel, mainly to determine line orientation and slope.
+t_line	set_line_params(t_coords *start, t_coords *end)
+{
+	t_line	line;
+
+	line.point = start;
+	line.end = end;
+	line.origin.x = start->x;
+	line.origin.y = start->y;
+	line.origin.colors = start->colors;
+	line.dx = end->x - start->x;
+	line.dy = end->y - start->y;
+	slope_calc(&(line.dx), &(line.dy), &(line.stepx), &(line.stepy));
+	return (line);
+}
+
+void	draw_pixel(t_params *p, t_coords *po, int color)
+{
+	mlx_pixel_put(p->mlx, p->mlx_window, po->x, po->y, color);
+}
+
 void	draw_line(t_coords start, t_coords end, t_params *params)
 {
-	int	dx;
-	int	dy;
-	int	stepx;
-	int	stepy;
-	int	fraction;
-	t_coords initial;
+	t_line	line;
 
-	initial = start;
-	initial.x = start.x;
-	initial.y = start.y;
-	dx = end.x - start.x;
-	dy = end.y - start.y;
-	slope_calc(&dx, &dy, &stepx, &stepy);
-	if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
-		mlx_pixel_put(params->mlx, params->mlx_window, start.x, start.y, start.colors.rgb);
-	if (dx > dy)
-	{
-		fraction = dy - (dx / 2);
-		while (start.x != end.x)
-		{
-			start.x += stepx;
-			if (fraction >= 0)
-			{
-				start.y += stepy;
-				fraction -= dx;
-			}
-			fraction += dy;
-			draw_horiz(params, start, end, initial);
-		}
-	}
+	line = set_line_params(&start, &end);
+	if (pixel_into_scope(line.point))
+		draw_pixel(params, line.point, line.point->colors.rgb);
+	if (line.dx > line.dy)
+		draw_horizontal(params, &line);
 	else
+		draw_vertical(params, &line);
+}
+
+void	draw_horizontal(t_params *p, t_line *l)
+{
+	int	color;
+
+	l->fraction = l->dy - (l->dx / 2);
+	while (l->point->x != l->end->x)
 	{
-		fraction = dx - (dy / 2);
-		while (start.y != end.y)
+		l->point->x += l->stepx;
+		if (l->fraction >= 0)
 		{
-			if (fraction >= 0)
-			{
-				start.x += stepx;
-				fraction -= dy;
-			}
-			start.y += stepy;
-			fraction += dx;
-			draw_vert(params, start, end, initial);
+			l->point->y += l->stepy;
+			l->fraction -= l->dx;
+		}
+		l->fraction += l->dy;
+		if (pixel_into_scope(l->point))
+		{
+			color = calc_point_color(l->origin, *(l->end), l->point->x, 1);
+			draw_pixel(p, l->point, color);
 		}
 	}
 }
 
-void	draw_horiz(t_params *p, t_coords start, t_coords end, t_coords ini)
+void	draw_vertical(t_params *p, t_line *l)
 {
 	int	color;
 
-	if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
+	l->fraction = l->dx - (l->dy / 2);
+	while (l->point->y != l->end->y)
 	{
-		color = calc_point_color(ini, end, start.x, 1);
-		mlx_pixel_put(p->mlx, p->mlx_window, start.x, start.y, color);
+		if (l->fraction >= 0)
+		{
+			l->point->x += l->stepx;
+			l->fraction -= l->dy;
+		}
+		l->point->y += l->stepy;
+		l->fraction += l->dx;
+		if (pixel_into_scope(l->point))
+		{
+			color = calc_point_color(l->origin, *(l->end), l->point->y, 2);
+			draw_pixel(p, l->point, color);
+		}
 	}
 }
-
-void	draw_vert(t_params *p, t_coords start, t_coords end, t_coords ini)
+/*
+int	pixel_into_scope(t_coords *point)
 {
-	int	color;
-
-	if ((0 <= start.x) && (start.x < 1200) && (0 <= start.y) && (start.y < 1200))
-	{
-		color = calc_point_color(ini, end, start.y, 2);
-		mlx_pixel_put(p->mlx, p->mlx_window, start.x, start.y, color);
-	}
+	if (point->x < 0 || point->y < 0)
+		return (0);
+	else if (point->x > 1200 || point->y > 1200)
+		return (0);
+	return (1);
 }
 
-void		slope_calc(int *dx, int *dy, int *stepx, int *stepy)
+void	slope_calc(int *dx, int *dy, int *stepx, int *stepy)
 {
 	if (*dy < 0)
 	{
@@ -101,5 +123,4 @@ void		slope_calc(int *dx, int *dy, int *stepx, int *stepy)
 		*stepx = 1;
 	*dy = *dy * 2;
 	*dx = *dx * 2;
-
-}
+}*/

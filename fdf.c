@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 23:23:39 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/22 13:45:23 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	checkleaks(void)
 	system("leaks fdf");
 }
 
-//	atexit(checkleaks);
 int	main(int argc, char **argv)
 {
 	int			map_dims[2];
 	t_coords	**map;
 	int			win_dims[3];
 
+	atexit(checkleaks);
 	if (argc != 2)
 	{
 		ft_putstr_fd("Usage: ./fdf [map.fdf]\n", 2);
@@ -42,10 +42,6 @@ int	main(int argc, char **argv)
 	create_window_hooks(map, map_dims, win_dims);
 	exit(0);
 }
-
-//	free_mlx_ptr(params.mlx);
-//	free_map(map, map_dims[1], map_dims[0]);
-
 
 void	get_map_cols(int *cols, char *file)
 {
