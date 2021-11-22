@@ -6,17 +6,17 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 16:40:34 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/22 16:40:51 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/22 19:58:03 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	pixel_into_scope(t_coords *point)
+int	pixel_into_scope(t_coords *point, t_params *p)
 {
 	if (point->x < 0 || point->y < 0)
 		return (0);
-	else if (point->x > 1200 || point->y > 1200)
+	else if (point->x > p->width || point->y > p->height)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 12:29:37 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 23:42:26 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/22 19:49:28 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	set_window_dimensions(int (*win_dims)[3], int map_dims[2])
 	diagonal = map_dims[0] * map_dims[1];
 	if (diagonal > 10000)
 	{
-		(*win_dims)[0] = 1000;
-		(*win_dims)[1] = 800;
+		(*win_dims)[0] = 1800;
+		(*win_dims)[1] = 1200;
 		(*win_dims)[2] = 3;
 	}
 	else if (diagonal > 2500)

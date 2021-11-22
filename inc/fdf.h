@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/22 16:39:14 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/22 20:01:41 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_coords{
 typedef struct s_params{
 	void	*mlx;
 	void	*mlx_window;
+	int		width;
+	int		height;
 }				t_params;
 
 typedef struct s_line{
@@ -78,10 +80,8 @@ int			calc_point_color(t_coords start, t_coords end, int pos, int comb);
 void		free_map(t_coords **map, int rows, int cols);
 void		create_window_hooks(t_coords **map, int map_dims[2], int w_dims[3]);
 int			byebye(void);
-//void		draw_vert(t_params *p, t_coords *start, t_coords *end, t_coords ini);
 void		draw_horizontal(t_params *p, t_line *l);
 void		draw_vertical(t_params *p, t_line *l);
-//void		draw_horiz(t_params *p, t_coords *start, t_coords *end, t_coords ini);
 void		slope_calc(int *dx, int *dy, int *stepx, int *stepy);
 int			hex_map_checker(char *str);
 t_coords	**assign_memory(int map_dims[2]);
@@ -90,6 +90,6 @@ int			get_map_rows(char *file);
 void		parse_one_row(char *row, t_coords ***map, int square_size, int i);
 t_line		set_line_params(t_coords *start, t_coords *end);
 void		draw_horizontal(t_params *p, t_line *l);
-int			pixel_into_scope(t_coords *point);
+int			pixel_into_scope(t_coords *point, t_params *p);
 
 #endif

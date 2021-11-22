@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/22 13:45:23 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/22 19:51:19 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,12 @@
 #include <stdlib.h>
 #include "fdf.h"
 
-void	checkleaks(void)
-{
-	system("leaks fdf");
-}
-
 int	main(int argc, char **argv)
 {
 	int			map_dims[2];
 	t_coords	**map;
 	int			win_dims[3];
 
-	atexit(checkleaks);
 	if (argc != 2)
 	{
 		ft_putstr_fd("Usage: ./fdf [map.fdf]\n", 2);
