@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/23 13:40:36 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/23 15:38:29 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include "get_next_line.h"
-# include "mlx.h"
+# include <mlx.h>
 # include "errno.h"
 # include "math.h"
 

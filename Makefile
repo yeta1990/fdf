@@ -1,4 +1,4 @@
-SRCS	= srcs/fdf.c srcs/free_fdf.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/ft_atoi.c srcs/ft_draw_lines.c srcs/ft_window_mgmt.c srcs/ft_memcmp.c srcs/hex_to_int.c srcs/ft_putstr_fd.c srcs/ft_putchar_fd.c srcs/ft_parse_map.c srcs/color_interpolation.c srcs/free_map.c srcs/ft_window_mgmt2.c srcs/ft_toupper.c srcs/ft_is_space.c srcs/ft_draw_helpers.c srcs/ft_parser_utils.c
+SRCS	= srcs/fdf.c srcs/get_next_line.c srcs/get_next_line_utils.c srcs/ft_atoi.c srcs/ft_draw_lines.c srcs/ft_window_mgmt.c srcs/ft_memcmp.c srcs/hex_to_int.c srcs/ft_putstr_fd.c srcs/ft_putchar_fd.c srcs/ft_parse_map.c srcs/color_interpolation.c srcs/free_map.c srcs/ft_window_mgmt2.c srcs/ft_toupper.c srcs/ft_is_space.c srcs/ft_draw_helpers.c srcs/ft_parser_utils.c
 
 INCS	= inc
 
@@ -16,7 +16,7 @@ RM		= rm -f
 			$(CC) $(CFLAGS) -Imlx -c $< -o $(<:.c=.o) -I$(INCS)
 
 $(NAME):	$(OBJS)
-			$(CC) $(CFLAGS) $(OBJS) -I$(INCS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) 
+			$(CC) $(CFLAGS) $(OBJS) -I$(INCS) -lmlx -framework OpenGL -framework AppKit -o $(NAME) 
 all:		$(NAME)
 
 clean:
@@ -28,6 +28,6 @@ fclean:		clean
 re:			fclean all
 
 san:		$(OBJS)
-			$(CC) $(CFLAGS) -fsanitize=address $(OBJS) -I$(INCS) -Lmlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) 
+			$(CC) $(CFLAGS) -fsanitize=address $(OBJS) -I$(INCS) -lmlx -framework OpenGL -framework AppKit -o $(NAME) 
 
 .PHONY:		all clean fclean re
