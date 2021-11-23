@@ -6,16 +6,11 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/23 15:48:05 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:01:11 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-void	checkl(void)
-{
-	system("leaks fdf");
-}
 
 int	main(int argc, char **argv)
 {
@@ -23,7 +18,6 @@ int	main(int argc, char **argv)
 	t_coords	**map;
 	int			win_dims[3];
 
-	atexit(checkl);
 	if (argc != 2 && argc != 4)
 		throw_argc_error(argv[0]);
 	map = 0;
