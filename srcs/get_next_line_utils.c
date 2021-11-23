@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 19:30:47 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/22 19:41:23 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/10/13 12:38:21 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,31 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	size_t	size;
+	char	*s2;
+
+	if (!s)
+		return (0);
+	if (start >= ft_strlen(s))
+	{
+		s2 = malloc(sizeof(char));
+		s2[0] = '\0';
+		return (s2);
+	}
+	if (len >= ft_strlen(s))
+		size = ft_strlen(s) - start + 1;
+	else
+		size = len + 1;
+	s2 = malloc(sizeof(char) * size);
+	if (!s2)
+		return (0);
+	s2 = ft_memmove(s2, (s + start), size);
+	s2[size - 1] = '\0';
+	return (s2);
 }
 
 void	*ft_memmove(void *dst, const void *src, size_t len)

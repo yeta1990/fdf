@@ -6,13 +6,13 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/23 12:41:31 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/23 13:41:53 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:32:12 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	get_map_cols(char *file)
+int	get_map_cols(char *file, int *rows)
 {
 	int		fd;
 	char	*row;
@@ -34,6 +34,7 @@ int	get_map_cols(char *file)
 			throw_parse_error(2);
 		free(aux);
 		row = get_next_line(fd);
+		(*rows)++;
 	}
 	close(fd);
 	return (cols[0]);

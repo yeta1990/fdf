@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/23 15:38:29 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:26:31 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void		draw_vertical(t_params *p, t_line *l);
 void		slope_calc(int *dx, int *dy, int *stepx, int *stepy);
 int			hex_map_checker(char *str);
 t_coords	**assign_memory(int map_dims[2]);
-int			get_map_cols(char *file);
+int			get_map_cols(char *file, int *rows);
 int			get_map_rows(char *file);
 void		parse_one_row(char *row, t_coords ***map, int sq_size, int z_l);
 t_line		set_line_params(t_coords *start, t_coords *end);

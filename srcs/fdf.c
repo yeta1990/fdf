@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+ */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:22:44 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/23 16:01:11 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/23 16:31:07 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	main(int argc, char **argv)
 	if (argc != 2 && argc != 4)
 		throw_argc_error(argv[0]);
 	map = 0;
-	map_dims[0] = get_map_cols(argv[1]);
-	map_dims[1] = get_map_rows(argv[1]);
+	map_dims[1] = 0;
+	map_dims[0] = get_map_cols(argv[1], &map_dims[1]);
 	if (map_dims[0] == 0 && map_dims[1] == 0)
 		throw_parse_error(3);
 	map = assign_memory(map_dims);
