@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/22 20:01:41 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:40:36 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void		ft_putchar_fd(char c, int fd);
 int			ft_toupper(int c);
 int			char_pos(char *s, int c);
 int			hex_decimal_converter(char a, char b);
-void		fill_rows(t_coords **map, char *file, int square_size);
-t_coords	create_coords(int i, int j, int z, int square_size);
+void		fill_rows(t_coords **map, char *file, int square_size, int z_len);
+t_coords	create_coords(int i, int j, int z);
 int			ft_is_space(char c);
 void		center_map(t_coords **map, int rows, int cols, int win_dims[2]);
 double		get_relative_position(int start, int end, int pos);
@@ -85,11 +85,14 @@ void		draw_vertical(t_params *p, t_line *l);
 void		slope_calc(int *dx, int *dy, int *stepx, int *stepy);
 int			hex_map_checker(char *str);
 t_coords	**assign_memory(int map_dims[2]);
-void		get_map_cols(int *cols, char *file);
+int			get_map_cols(char *file);
 int			get_map_rows(char *file);
-void		parse_one_row(char *row, t_coords ***map, int square_size, int i);
+void		parse_one_row(char *row, t_coords ***map, int sq_size, int z_l);
 t_line		set_line_params(t_coords *start, t_coords *end);
 void		draw_horizontal(t_params *p, t_line *l);
 int			pixel_into_scope(t_coords *point, t_params *p);
+int			cols_counter(char *row);
+void		throw_argc_error(char *name);
+void		throw_parse_error(int n);
 
 #endif

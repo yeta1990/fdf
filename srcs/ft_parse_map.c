@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 12:30:15 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/21 23:28:22 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/23 13:45:46 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,20 @@ t_coords	**assign_memory(int map_dims[2])
 	return (map);
 }
 
-void	fill_rows(t_coords **map, char *file, int square_size)
+void	fill_rows(t_coords **map, char *file, int square_size, int z_len)
 {
 	int		fd;
 	char	*row;
 	int		i;
+	char	*aux_row;
 
 	i = 0;
 	fd = open(file, O_RDONLY);
 	row = get_next_line(fd);
 	while (row)
 	{
-		parse_one_row(row, &map, square_size, i);
+		aux_row = row;
+		parse_one_row(aux_row, &map, square_size, z_len);
 		free(row);
 		row = get_next_line(fd);
 		i++;
@@ -49,38 +51,41 @@ void	fill_rows(t_coords **map, char *file, int square_size)
 	close(fd);
 }
 
-void	parse_one_row(char *row, t_coords ***map, int square_size, int i)
+void	parse_one_row(char *row, t_coords ***map, int s, int z_l)
 {
-	char	*aux;
-	int		j;
-	int		space;
+	int			j;
+	int			space;
+	static int	i;
 
 	space = 1;
-	aux = row;
 	j = 0;
-	while (*aux)
+	while (*row)
 	{
-		if ((ft_is_space(*aux) == 0 && space == 1) || j == 0)
+		if ((ft_is_space(*row) == 0 && space == 1) || j == 0)
 		{
 			space = 0;
-			(*map)[i][j] = create_coords(i, j, ft_atoi(aux), square_size);
+			if (z_l != 0)
+				(*map)[i][j] = create_coords(i * s, j * s, ft_atoi(row) * z_l);
+			else
+				(*map)[i][j] = create_coords(i * s, j * s, ft_atoi(row) * s);
 			j++;
 		}
-		else if (ft_memcmp(aux, ",0x", 3) == 0 && j > 0)
-			(*map)[i][j - 1].colors = hex_to_int(aux + 3);
-		else if (ft_is_space(*aux))
+		else if (ft_memcmp(row, ",0x", 3) == 0 && j > 0)
+			(*map)[i][j - 1].colors = hex_to_int(row + 3);
+		else if (ft_is_space(*row))
 			space = 1;
-		aux++;
+		row++;
 	}
+	i++;
 }
 
-t_coords	create_coords(int i, int j, int z, int square_size)
+t_coords	create_coords(int i, int j, int z)
 {
 	t_coords	co;
 
-	co.x = (i * square_size + j * square_size);
-	co.z = z * square_size;
-	co.y = ((i * square_size - j * square_size) / 2) - co.z;
+	co.x = (i + j);
+	co.z = z;
+	co.y = ((i - j) / 2) - co.z;
 	co.colors = hex_to_int("FFFFFF");
 	return (co);
 }
