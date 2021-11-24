@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 12:09:43 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/23 16:26:31 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:53:30 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@ typedef struct s_coords{
 }				t_coords;
 
 typedef struct s_params{
-	void	*mlx;
-	void	*mlx_window;
-	int		width;
-	int		height;
+	void		*mlx;
+	void		*mlx_window;
+	int			width;
+	int			height;
+	t_coords	***map;
+	int			map_x;
+	int			map_y;
 }				t_params;
 
 typedef struct s_line{
@@ -57,7 +60,6 @@ void		print_map(t_coords **map, t_params *params, int cols, int rows);
 void		draw_line(t_coords start, t_coords end, t_params *params);
 int			mouse_win3(int x, int y, void *p);
 int			window_close_destroy(int keycode, t_params *params);
-void		free_mlx_ptr(void *mlx);
 void		set_window_dimensions(int (*win_dims)[3], int map_dims[2]);
 void		set_window_dimensions_2(int diagonal, int (*win_dims)[3]);
 int			set_initial_x(t_coords **map, int rows, int cols, int win_dims[3]);
@@ -77,7 +79,6 @@ void		center_map(t_coords **map, int rows, int cols, int win_dims[2]);
 double		get_relative_position(int start, int end, int pos);
 int			calc_saturation(int start_color, int end_color, double relation);
 int			calc_point_color(t_coords start, t_coords end, int pos, int comb);
-void		free_map(t_coords **map, int rows, int cols);
 void		create_window_hooks(t_coords **map, int map_dims[2], int w_dims[3]);
 int			byebye(void);
 void		draw_horizontal(t_params *p, t_line *l);

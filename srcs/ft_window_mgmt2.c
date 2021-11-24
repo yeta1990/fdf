@@ -6,7 +6,7 @@
 /*   By: albgarci <albgarci@student.42madrid.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 10:59:18 by albgarci          #+#    #+#             */
-/*   Updated: 2021/11/23 16:33:13 by albgarci         ###   ########.fr       */
+/*   Updated: 2021/11/24 12:53:44 by albgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	create_window_hooks(t_coords **map, int map_dims[2], int w_dims[3])
 	}
 	params.width = w_dims[0];
 	params.height = w_dims[1];
+	params.map_x = map_dims[1];
+	params.map_y = map_dims[0];
+	params.map = &map;
 	print_map(map, &params, map_dims[0], map_dims[1]);
 	mlx_key_hook(params.mlx_window, window_close_destroy, &params);
 	mlx_hook(params.mlx_window, 17, (1L << 17), byebye, &params);
