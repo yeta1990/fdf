@@ -41,6 +41,6 @@ Graphical
 
 ## Instructions and usage
 
--   `make`
+-   Download and compile minilibx [1](https://github.com/42Paris/minilibx-linux.git), [2](https://harm-smits.github.io/42docs/libs/minilibx/getting_started.html) in the path ./fdf/mlx, with something like this: `git clone https://github.com/42Paris/minilibx-linux.git mlx && cd mlx && make && cd .. && make`
 -   Usage : `./fdf [map.fdf] <filename> [ case_size z_size ]` where _case_size_ param is the square width and _z-size_ is the proportion and orientation of z-axis.
 
